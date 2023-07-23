@@ -1,7 +1,7 @@
 import Head from "next/head";
 import RootLayout from "@/components/Layouts/RootLayout";
 import Banner from "@/components/UI/Banner";
-import AllNews from "@/components/UI/AllNews";
+import AllNews from "@/pages/news/index.js";
 import { useGetPostsQuery } from "@/redux/api/apiSlice";
 import dynamic from "next/dynamic";
 
@@ -39,7 +39,7 @@ HomePage.getLayout = function getLayout(page) {
 
 export const getServerSideProps = async () => {
   const res = await fetch(
-    "https://www.sportsknot.com/wp-json/wp/v2/posts?_embed&order=desc&per_page=100&status=publish"
+    "https://www.sportsknot.com/wp-json/wp/v2/posts?_embed&order=desc&per_page=10&status=publish"
   );
   const data = await res.json();
   return {
