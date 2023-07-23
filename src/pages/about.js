@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import RootLayout from "@/components/Layouts/RootLayout";
 
-
 const AboutPage = () => {
   return (
     <div
@@ -30,7 +29,6 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
 
 AboutPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;

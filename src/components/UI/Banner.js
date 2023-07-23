@@ -8,91 +8,112 @@ import {
 import Image from "next/image";
 import DrawingImage from "@/assets/images/banner-images/drawing_image.jpg";
 import EagleImage from "@/assets/images/banner-images/eagle_image.jpg";
+import Link from "next/link";
 
 const contentStyle = {
   height: "425px",
   color: "#000",
 };
+const Banner = ({ allNews }) => {
+  return (
+    <Carousel effect="fade" autoplay style={{ margin: "20px 0px" }}>
+      {/* slider-1 */}
+      {allNews?.map((news) => (
+        <Row key={news?.slug}>
+          <Col
+            lg={{
+              span: 8,
+            }}
+          >
+            <h1
+              style={{ fontSize: "50px" }}
+              dangerouslySetInnerHTML={{
+                __html: news?.title?.rendered.slice(0, 14),
+              }}
+            />
 
-const Banner = () => (
-  <Carousel effect="fade" autoplay style={{ margin: "20px 0px" }}>
-    {/* slider-1 */}
-    <div>
-      <Row>
-        <Col
-          lg={{
-            span: 8,
-          }}
-        >
-          <h1 style={{ fontSize: "50px" }}>
-            LET&apos;S BUILD
             <br />
-            YOUR CAREER
-          </h1>
-          <div
-            className="line"
-            style={{
-              height: "5px",
-              margin: "20px 0",
-              background: "#000",
-              width: "95%",
-            }}
-          ></div>
+            <h1
+              style={{ fontSize: "50px" }}
+              dangerouslySetInnerHTML={{
+                __html: news?.title?.rendered.slice(15, 23),
+              }}
+            />
 
-          <p
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "90%",
-              color: "gray",
-              margin: "10px 0px",
+            <div
+              className="line"
+              style={{
+                height: "5px",
+                margin: "20px 0",
+                background: "#000",
+                width: "95%",
+              }}
+            ></div>
+
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "90%",
+                color: "gray",
+                margin: "10px 0px",
+              }}
+            >
+              <span>
+                <CalendarOutlined /> {news.date}
+              </span>
+              <span>
+                <CommentOutlined /> NO COMMENTS
+              </span>
+              <span>
+                <ProfileOutlined /> HOBBY
+              </span>
+            </p>
+
+            <div
+              style={{ fontSize: "25px" }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  news["content"]["rendered"].length > 100
+                    ? news["content"]["rendered"].slice(0, 100) + "..."
+                    : news["content"]["rendered"],
+              }}
+            />
+            <Link
+              href={`/news/${news?.slug}`}
+              style={{
+                fontSize: "20px",
+                margin: "20px 0px",
+                backgroundColor: "black",
+                color: "white",
+                width: "168px",
+                padding: "2px 5px ",
+                fontWeight: "300",
+                letterSpacing: "3px",
+              }}
+            >
+              Keep Reading <ArrowRightOutlined />
+            </Link>
+          </Col>
+
+          <Col
+            lg={{
+              span: 16,
             }}
+            style={contentStyle}
           >
-            <span>
-              <CalendarOutlined /> FEBRUARY 28, 2023
-            </span>
-            <span>
-              <CommentOutlined /> NO COMMENTS
-            </span>
-            <span>
-              <ProfileOutlined /> HOBBY
-            </span>
-          </p>
+            <Image
+              src={news["_embedded"]?.["wp:featuredmedia"]?.[0]?.["source_url"]}
+              alt={news["title"]["rendered"]}
+              fill
+              responsive
+            />
+          </Col>
+        </Row>
+      ))}
 
-          <p style={{ fontSize: "20px" }}>
-            Beauteous before up across felt sheepishly and more mournfully the
-            wow so more flustered and one up pushed salamander collective
-            blinked that iguanodon bid much some since hey far goodness jaguar
-            whil...
-          </p>
-          <p
-            style={{
-              fontSize: "20px",
-              margin: "20px 0px",
-              backgroundColor: "black",
-              color: "white",
-              width: "168px",
-              padding: "2px 5px ",
-              fontWeight: "300",
-              letterSpacing: "3px",
-            }}
-          >
-            Keep Reading <ArrowRightOutlined />
-          </p>
-        </Col>
-
-        <Col
-          lg={{
-            span: 16,
-          }}
-          style={contentStyle}
-        >
-          <Image src={DrawingImage} fill alt="drawing_image" />
-        </Col>
-      </Row>
-    </div>
-    {/* slider-2 */}
-    <div>
+      {/* slider-2 */}
+      {/* <div>
       <Row>
         <Col
           lg={{
@@ -169,7 +190,9 @@ const Banner = () => (
           />
         </Col>
       </Row>
-    </div>
-  </Carousel>
-);
+    </div> */}
+    </Carousel>
+  );
+};
+
 export default Banner;
