@@ -1,6 +1,5 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://<username>:<password>@cluster0.t1tclt6.mongodb.net/?retryWrites=true&w=majority";
+import { MongoClient, ServerApiVersion } from "mongodb";
+const uri = "mongodb://localhost:27017/newsDb";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -11,18 +10,27 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function run() {
+async function run(req, res) {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+
+    const newsCollection = client.db("newsDb").collection("news");
+
+    if (req.method === "GET") {
+      const news = await newsCollection.find({}).toArray();
+      res.json(news);
+    }
+
+    if (req.method === "POST") {
+      const news = req.body;
+      const result = await newsCollection.insertOne(news);
+      res.json(result);
+    }
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
-run().catch(console.dir);
+export default run;

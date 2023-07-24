@@ -43,6 +43,16 @@ const RootLayout = ({ children }) => {
               All News
             </items>
           </Link>
+          <Link href="/create">
+            <items
+              style={{
+                margin: "0px 25px",
+              }}
+            >
+              <ProfileOutlined />
+              Add News
+            </items>
+          </Link>
           <Link href="/about">
             <items
               style={{
