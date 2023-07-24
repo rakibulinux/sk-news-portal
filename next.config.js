@@ -5,10 +5,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.sportsknot.com",
+        hostname: "**",
         port: "",
-        pathname: "/wp-content/uploads/**",
+        pathname: "**",
       },
+      // {
+      //   protocol: "https",
+      //   hostname: "images2.minutemediacdn.com",
+      //   port: "",
+      //   pathname: "/image/upload/*",
+      // },
     ],
   },
 };

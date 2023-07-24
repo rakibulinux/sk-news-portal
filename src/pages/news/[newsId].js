@@ -8,12 +8,45 @@ import { Col, Row } from "antd";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
+import parse, { domToReact } from "html-react-parser";
 
 const NewsDetailsPage = ({ post }) => {
   const content = post[0];
   if (!content) {
     return <p>Loading...</p>;
   }
+
+  const options = {
+    replace: (node) => {
+      if (node.name === "img") {
+        // Extract image URL from the node attributes
+        const { src, alt, width, height } = node.attribs;
+        return (
+          <Image src={src} alt={alt} width={1000} height={563} responsive />
+        );
+      }
+    },
+  };
+
+  //   const replaceImage = {
+  //     replace: ({ name, attribs, children }) => {
+  //       if (name === "figure" && /wp-block-image/.test(attribs.class)) {
+  //         return <>{domToReact(children, replaceImage)}</>;
+  //       }
+
+  //       if (name === "img") {
+  //         return (
+  //           <Image
+  //             src={attribs.src}
+  //             width={500}
+  //             height={200}
+  //             responsive
+  //             alt={attribs.alt ? attribs.alt : "Blog post image"}
+  //           />
+  //         );
+  //       }
+  //     },
+  //   };
   return (
     <>
       <Head>
@@ -27,8 +60,11 @@ const NewsDetailsPage = ({ post }) => {
             md: 24,
             lg: 32,
           }}
+          style={{
+            flexDirection: "column",
+          }}
         >
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" span={24}>
             <div>
               <Image
                 src={
@@ -37,7 +73,7 @@ const NewsDetailsPage = ({ post }) => {
                   ]
                 }
                 alt={content["title"]["rendered"]}
-                width={500}
+                width={600}
                 height={300}
                 responsive
               />
@@ -79,11 +115,13 @@ const NewsDetailsPage = ({ post }) => {
               </span>
             </p>
             <div
-              style={{ fontSize: "15px" }}
-              dangerouslySetInnerHTML={{
-                __html: content["content"]["rendered"],
-              }}
-            />
+            //   style={{ fontSize: "15px" }}
+            //   dangerouslySetInnerHTML={{
+            //     __html: content["content"]["rendered"],
+            //   }}
+            >
+              {parse(`${content.content.rendered}`, options)}
+            </div>
           </Col>
         </Row>
       </div>
